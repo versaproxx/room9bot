@@ -131,3 +131,8 @@ dmypy.json
 restrictedDates.csv
 users.csv
 private.py
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/room9bot.iml
+/.idea/vcs.xml
