@@ -130,3 +130,4 @@ dmypy.json
 
 restrictedDates.csv
 users.csv
+private.py

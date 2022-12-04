@@ -1,12 +1,13 @@
 #!/bin/env python
 
+from private import secrets
 import telebot
 import random
 import csv
 import datetime
 import time
 
-bot = telebot.TeleBot('TOKEN')
+bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
 pidor_list = []
 phraseList = [f'Кто же этот пидор, что спиздил у меня головку на {random.randint(8,32)}', 'Список не большой', 'Сейчас посмотрим']
