@@ -5,7 +5,7 @@ import random
 import csv
 import datetime
 
-bot = telebot.TeleBot('5921046052:AAEPrPhFvrRPPdm5Rri0RaMYa_Hak_KQRvw')
+bot = telebot.TeleBot('TOKEN')
 
 pidor_list = []
 phraseList = [f'Кто же этот пидор, что спиздил у меня головку на {random.randint(8,32)}', 'Список не большой', 'Сейчас посмотрим']
