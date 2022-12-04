@@ -6,13 +6,13 @@ import csv
 import datetime
 import time
 
-bot = telebot.TeleBot('5921046052:AAEPrPhFvrRPPdm5Rri0RaMYa_Hak_KQRvw')
+bot = telebot.TeleBot('TOKEN')
 
 pidor_list = []
 phraseList = [f'Кто же этот пидор, что спиздил у меня головку на {random.randint(8,32)}', 'Список не большой', 'Сейчас посмотрим']
 
 def pidorList():
-    with open(r'/Users/badm/Documents/python_learning /users.csv') as f:
+    with open(r'users.csv') as f:
         reader = csv.reader(f)
         for row in reader:
             pidor_list.append(row[0])
@@ -21,14 +21,15 @@ pidorList()
 
 def getPidor():
     pidor_of_the_day = random.choice(pidor_list)
-    with open (r'/Users/badm/Documents/python_learning /ristrinctDate.csv', mode='a', newline='\n', encoding='utf-8') as dateFile:
+    with open (r'restrictedDates.csv', mode='a', newline='\n', encoding='utf-8') as dateFile:
         dateWriter = csv.writer(dateFile, delimiter=',', quotechar='"')
         dateWriter.writerow([datetime.datetime.today().strftime('%Y-%m-%d'), pidor_of_the_day])
     return pidor_of_the_day
 
 
 def getDate():
-    with open(r'/Users/badm/Documents/python_learning /ristrinctDate.csv') as f:
+    last_played_date = ''
+    with open(r'restrictedDates.csv') as f:
         reader = csv.reader(f)
         for row in reader:
             last_played_date = row[0]
@@ -37,14 +38,14 @@ def getDate():
 
 getDate()
 def registerPidor(msg):
-        with open('/Users/badm/Documents/python_learning /users.csv', mode='a', newline='\n', encoding='utf-8') as users_file:
+        with open(r'users.csv', mode='a', newline='\n', encoding='utf-8') as users_file:
             pidor_writer = csv.writer(users_file, delimiter=',', quotechar='"')
             pidor_writer.writerow([msg.from_user.username, 0])
         pidor_list.append(msg.from_user.username)
         bot.send_message(msg.chat.id, f'Вы добавлены в игру, {msg.from_user.first_name} (@{msg.from_user.username})')
 
 def getPidorToday(msg):
-        with open(r'/Users/badm/Documents/python_learning /ristrinctDate.csv') as f:
+        with open(r'restrictedDates.csv') as f:
             temp_pidor_list = []
             reader = csv.reader(f)
             for row in reader:
