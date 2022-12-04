@@ -79,7 +79,7 @@ def start(msg, res=False):
 
 @bot.message_handler(commands=['pidor_list'])
 def start(msg, res=False):
-    stringa = ','.join(pidor_list)
+    stringa = '\n'.join(pidor_list)
     bot.send_message(msg.chat.id, stringa)
 
 
