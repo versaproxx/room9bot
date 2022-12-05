@@ -2,10 +2,13 @@
 
 from private import secrets
 import telebot
-from modules import tea, pidor, nahui
+from sqlalchemy.orm import Session
+from modules import tea, pidor, nahui, models
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
+engine = models.engine
+session = Session(engine)
 
 @bot.message_handler(commands=["pidor"])
 def start(m, res=False):
@@ -14,17 +17,17 @@ def start(m, res=False):
 
 @bot.message_handler(commands=['pidor_reg'])
 def start(msg, res=False):
-    pidor.pidor_reg(msg, bot)
+    pidor.pidor_reg(msg, bot, session)
 
 
 @bot.message_handler(commands=['pidor_list'])
 def start(msg, res=False):
-    pidor.pidor_list(msg, bot)
+    pidor.pidor_list(msg, bot, session)
 
 
 @bot.message_handler(commands=['find_pidor'])
 def start(msg, res=False):
-    pidor.find_pidor(msg, bot)
+    pidor.find_pidor(msg, bot, session)
 
 
 @bot.message_handler(commands=["nah", "nahuy", "nahui", "idinahui", "idinahuy"])
