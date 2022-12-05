@@ -6,7 +6,7 @@ import random
 import csv
 import datetime
 import time
-
+from modules import tea
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
 pidor_list = []
@@ -113,5 +113,8 @@ def idi_na_huy(msg):
 
     bot.delete_message(msg, deleting_message)
 
+bot.message_handler(regexp= 'ча[ю-я]')
+def send_tea(msg):
+    bot.send_sticker(msg.chat.id, tea.random_sticker)
 
 bot.polling(none_stop=True, interval=0)
