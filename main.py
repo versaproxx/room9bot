@@ -5,7 +5,7 @@ import telebot
 
 from pidor import pidor_reg, pidor_list, find_pidor
 from nahui import idi_na_huy
-
+from modules import tea
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
 
@@ -32,5 +32,9 @@ def start(msg, res=False):
 @bot.message_handler(commands=["nah", "nahuy", "nahui", "idinahui", "idinahuy"])
 def idi_na_hui_wrapper(msg, bot):
     idi_na_huy(msg,bot)
+
+@bot.message_handler(regexp= 'ча[ю-я]')
+def send_tea(msg):
+    bot.send_sticker(msg.chat.id, tea.random_sticker)
 
 bot.polling(none_stop=True, interval=0)
