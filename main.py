@@ -31,8 +31,8 @@ def start(msg, res=False):
 
 
 @bot.message_handler(commands=["nah", "nahuy", "nahui", "idinahui", "idinahuy"])
-def idi_na_hui_wrapper(msg, bot):
-    nahui.idi_na_huy(msg,bot)
+def idi_na_hui_wrapper(msg):
+    nahui.idi_na_huy(msg, bot)
 
 @bot.message_handler(regexp= 'ч(а|я)[ейкаю-я]')
 def send_tea(msg):
