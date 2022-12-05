@@ -2,10 +2,8 @@
 
 from private import secrets
 import telebot
+from modules import tea, pidor, nahui
 
-from pidor import pidor_reg, pidor_list, find_pidor
-from nahui import idi_na_huy
-from modules import tea
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
 
@@ -16,22 +14,22 @@ def start(m, res=False):
 
 @bot.message_handler(commands=['pidor_reg'])
 def start(msg, res=False):
-    pidor_reg(msg, bot)
+    pidor.pidor_reg(msg, bot)
 
 
 @bot.message_handler(commands=['pidor_list'])
 def start(msg, res=False):
-    pidor_list(msg, bot)
+    pidor.pidor_list(msg, bot)
 
 
 @bot.message_handler(commands=['find_pidor'])
 def start(msg, res=False):
-    find_pidor(msg, bot)
+    pidor.find_pidor(msg, bot)
 
 
 @bot.message_handler(commands=["nah", "nahuy", "nahui", "idinahui", "idinahuy"])
 def idi_na_hui_wrapper(msg, bot):
-    idi_na_huy(msg,bot)
+    nahui.idi_na_huy(msg,bot)
 
 @bot.message_handler(regexp= 'ча[ю-я]')
 def send_tea(msg):
