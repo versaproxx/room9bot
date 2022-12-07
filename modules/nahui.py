@@ -11,4 +11,4 @@ def idi_na_huy(msg, bot):
             bot.send_message(msg.chat.id, f'Да пошли вы все нахуй') 
         
 
-    bot.delete_message(msg, deleting_message)
+    bot.delete_message(msg.chat.id, deleting_message)
