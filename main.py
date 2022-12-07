@@ -12,23 +12,31 @@ session = Session(engine)
 
 @bot.message_handler(commands=["pidor"])
 def start(m, res=False):
-    bot.send_message(m.chat.id, f'А может ты пидор?')
-
+    try:
+        bot.send_message(m.chat.id, f'А может ты пидор?')
+    except:
+        pass
 
 @bot.message_handler(commands=['pidor_reg'])
 def start(msg, res=False):
-    pidor.pidor_reg(msg, bot, session)
-
+    try:
+        pidor.pidor_reg(msg, bot, session)
+    except:
+        pass
 
 @bot.message_handler(commands=['pidor_list'])
 def start(msg, res=False):
-    pidor.pidor_list(msg, bot, session)
-
+    try:
+        pidor.pidor_list(msg, bot, session)
+    except:
+        pass
 
 @bot.message_handler(commands=['find_pidor'])
 def start(msg, res=False):
-    pidor.find_pidor(msg, bot, session)
-
+    try:
+        pidor.find_pidor(msg, bot, session)
+    except:
+        pass
 
 @bot.message_handler(commands=["nah", "nahuy", "nahui", "idinahui", "idinahuy"])
 def idi_na_hui_wrapper(msg):
