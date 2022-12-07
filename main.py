@@ -65,5 +65,7 @@ def version_update(msg):
             os.system('sh new_build.sh')
         except:
             pass
-
+    else:
+        bot.send_message(msg.chat.id, f'Now allowed')
+        
 bot.polling(none_stop=True, interval=0)
