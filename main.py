@@ -5,6 +5,7 @@ import telebot
 from sqlalchemy.orm import Session
 from modules import tea, pidor, nahui, models, vpizdu
 from os import system
+import subprocess
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
@@ -62,7 +63,7 @@ def version_update(msg):
     if msg.from_user.id in [207307299, 5217820769, 493821534]:
         try:
             bot.send_message(msg.chat.id, f'Start update.')
-            os.system('sh new_build.sh')
+            subprocess.run('sh', 'new_build.sh')
         except:
             pass
     else:
