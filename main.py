@@ -32,8 +32,10 @@ def start(msg, res=False):
 
 @bot.message_handler(commands=["nah", "nahuy", "nahui", "idinahui", "idinahuy"])
 def idi_na_hui_wrapper(msg):
-    nahui.idi_na_huy(msg, bot)
-
+    try:
+        nahui.idi_na_huy(msg, bot)
+    except:
+        pass
 @bot.message_handler(regexp= 'ч(а|я)[ейкаю-я]')
 def send_tea(msg):
     bot.send_sticker(msg.chat.id, tea.random_sticker)
