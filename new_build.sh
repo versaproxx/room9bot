@@ -21,5 +21,5 @@ docker build -t 9bot .
 echo "New version of bot builded with name 9bot"
 
 echo "Starting new container"
-docker run -v /opt/bot_files:/opt/9bot/bot_files 9bot
+docker run -d -v /opt/bot_files:/opt/9bot/bot_files 9bot
 echo "Check your new version of bot in chat"
