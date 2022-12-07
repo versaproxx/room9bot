@@ -11,4 +11,4 @@ def idi_v_pizdu(msg, bot):
             bot.send_message(msg.chat.id, f'Ой идите вы все в пизду, дамы и господа') 
         
 
-    bot.delete_message(msg, deleting_message)
+    bot.delete_message(msg.chat.id, deleting_message)
