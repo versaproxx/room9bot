@@ -3,7 +3,7 @@
 from bot_files.private import secrets
 import telebot
 from sqlalchemy.orm import Session
-from modules import tea, pidor, nahui, models
+from modules import tea, pidor, nahui, models, vpizdu
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
@@ -44,6 +44,14 @@ def idi_na_hui_wrapper(msg):
         nahui.idi_na_huy(msg, bot)
     except:
         pass
+
+@bot.message_handler(commands=["vpizdu"])
+def idi_v_pizdu_wrapper(msg):
+    try:
+        vpizdu.idi_v_pizdu(msg, bot)
+    except:
+        pass
+
 @bot.message_handler(regexp= 'ч(а|я)[ейкаю-я]')
 def send_tea(msg):
     bot.send_sticker(msg.chat.id, tea.random_sticker)
