@@ -128,8 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-restrictedDates.csv
-users.csv
 private.py
 pidors.db
 /.idea/misc.xml
