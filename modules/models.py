@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Table, create_engine
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('sqlite:///pidors.db', echo=True, future=True, connect_args={'check_same_thread': False})
+engine = create_engine('sqlite:///bot_files/pidors.db', echo=True, future=True, connect_args={'check_same_thread': False})
 Base = declarative_base()
 
 

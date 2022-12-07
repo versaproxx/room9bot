@@ -1,5 +1,5 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+__pycache__*/
 *.py[cod]
 *$py.class
 
@@ -135,3 +135,4 @@ pidors.db
 /.idea/inspectionProfiles/profiles_settings.xml
 /.idea/room9bot.iml
 /.idea/vcs.xml
+bot_files/

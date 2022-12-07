@@ -1,6 +1,6 @@
 #!/bin/env python
 
-from private import secrets
+from bot_files.private import secrets
 import telebot
 from sqlalchemy.orm import Session
 from modules import tea, pidor, nahui, models

@@ -1,7 +1,7 @@
 import random
 import datetime
 import time
-from SQLAlchemy import select, func
+from sqlalchemy import select, func
 from modules.models import Pidors, PidorDates
 
 def pidorList(session):
