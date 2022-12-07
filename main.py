@@ -4,6 +4,7 @@ from bot_files.private import secrets
 import telebot
 from sqlalchemy.orm import Session
 from modules import tea, pidor, nahui, models, vpizdu
+from os import system
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
@@ -55,5 +56,14 @@ def idi_v_pizdu_wrapper(msg):
 @bot.message_handler(regexp= 'ч(а|я)[ейкаю-я]')
 def send_tea(msg):
     bot.send_sticker(msg.chat.id, tea.random_sticker)
+
+@bot.message_handler(commands=["git_update"])
+def version_update(msg):
+    if msg.from_user.id in ['493821534', '5217820769', '493821534']:
+        try:
+            bot.send_message(msg.chat.id, f'Start update.')
+            os.system('sh new_build.sh')
+        except:
+            pass
 
 bot.polling(none_stop=True, interval=0)
