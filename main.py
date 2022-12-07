@@ -66,6 +66,6 @@ def version_update(msg):
         except:
             pass
     else:
-        bot.send_message(msg.chat.id, f'Now allowed')
+        bot.send_message(msg.chat.id, f'Not allowed')
 
 bot.polling(none_stop=True, interval=0)
