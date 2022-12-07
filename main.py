@@ -59,7 +59,7 @@ def send_tea(msg):
 
 @bot.message_handler(commands=["git_update"])
 def version_update(msg):
-    if msg.from_user.id in ['207307299', '5217820769', '493821534']:
+    if msg.from_user.id in [207307299, 5217820769, 493821534]:
         try:
             bot.send_message(msg.chat.id, f'Start update.')
             os.system('sh new_build.sh')
