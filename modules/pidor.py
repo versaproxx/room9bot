@@ -17,6 +17,10 @@ def get_pidor(session):
     new_date = PidorDates(pidor_date=datetime.datetime.today(), pidor_id=session.query(Pidors.pidor_id).filter(Pidors.name == pidor_of_the_day))
     session.add(new_date)
     session.commit()
+    stmt = Pidors.update().\
+       values(pidor_times=Pidors.pidor_times + 1).\
+       where(Pidors.name == pidor_of_the_day)
+    session.execute(stmt)
     return pidor_of_the_day
 
 
@@ -40,9 +44,16 @@ def get_pidor_today(msg, bot, session):
     bot.send_message(msg.chat.id, f'Пидор дня: {pidor_today[0]}')
 
 def pidor_list(msg, bot, session):
+    pidor_list_text = ''
     pidor_list = pidorList(session)
-    stringa = '\n'.join(pidor_list)
-    bot.send_message(msg.chat.id, stringa)
+    pidor_dict = {}
+    for pidor in pidor_list:
+        pidor_count = session.query(Pidors.pidor_times).filter(Pidors.name==pidor).one()
+        pidor_dict[pidor] = pidor_count
+    sorted_pidors = dict(sorted(pidor_dict.items(), key=lambda item: item[1]), reverse=True)
+    for pidor in sorted_pidors:
+        pidor_list_text = pidor_list_text + pidor + ' - ' + sorted_pidors[pidor] + 'раз' + '\n'
+    bot.send_message(msg.chat.id, pidor_list_text)
 
 def find_pidor(msg, bot, session):
     phraseList = [f'Кто же этот пидор, что спиздил у меня головку на {random.randint(8, 32)}', 'Список не большой',
