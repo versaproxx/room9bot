@@ -10,4 +10,6 @@ COPY ["main.py", "requirements.txt", "${BOT_HOME}/"]
 
 RUN pip install -r requirements.txt
 
+
+VOLUME ["/opt/bot_files", "/opt/9bot/bot_files"]
 ENTRYPOINT [ "python", "main.py" ]
