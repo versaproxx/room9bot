@@ -3,8 +3,7 @@
 from bot_files.private import secrets
 import telebot
 from sqlalchemy.orm import Session
-from modules import tea, pidor, nahui, models, vpizdu, zaebal
-import random
+from modules import tea, pidor, nahui, models, vpizdu, zaebal, pinus
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
@@ -62,10 +61,16 @@ def send_tea(msg):
     bot.send_sticker(msg.chat.id, tea.random_sticker)
 
 @bot.message_handler(commands=['pinus'])
-def pinus(msg):
-    raw_pinus = str(msg.from_user.id)
-    size = 0
-    for raw_size in raw_pinus:
-        size += int(raw_size)
-    bot.send_message(msg.chat.id, f"Твой пинус: {(size / 2) + random.randint(0,9)}")
+def self_pinus(msg):
+    try:
+        pinus.personal_pinus(msg, bot)
+    except:
+        pass
+
+@bot.message_handler(commands=['pinus_fight'])
+def pinus_fight(msg):
+    try:
+        pinus.pinus_fight(msg, bot)
+    except:
+        pass
 bot.polling(none_stop=True, interval=0)
