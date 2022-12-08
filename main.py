@@ -63,11 +63,9 @@ def send_tea(msg):
 
 @bot.message_handler(commands=['pinus'])
 def pinus(msg):
-    raw_pinus = msg.reply_to_message.from_user.id
+    raw_pinus = str(msg.from_user.id)
     size = 0
     for raw_size in raw_pinus:
         size += int(raw_size)
     bot.send_message(msg.chat.id, f"Твой пинус: {(size / 2) + random.randint(0,9)}")
-
-
 bot.polling(none_stop=True, interval=0)
