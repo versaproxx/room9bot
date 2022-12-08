@@ -1,12 +1,15 @@
 #!/bin/env python
 
+import datetime
 from bot_files.private import secrets
 import telebot
+import time
 from sqlalchemy.orm import Session
 from modules import tea, pidor, nahui, models, vpizdu, zaebal, pinus
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
+cooldown = {}
 engine = models.engine
 session = Session(engine)
 
@@ -53,8 +56,13 @@ def idi_v_pizdu_wrapper(msg):
 
 
 @bot.message_handler(commands=["zaebal"])
-def zaebal_wrapper(msg):
-    zaebal.zaebal(msg, bot)
+def zaebal_wrapper(msg) -> None:
+    if msg.from_user.username not in cooldown or cooldown[(msg.from_user.username)] > datetime.datetime.now():
+        zaebal.zaebal(msg, bot)
+        cooldown[msg.from_user.username] = datetime.datetime.now()
+        print((datetime.datetime.now() - cooldown[msg.from_user.username]).total_seconds())
+    elif (datetime.datetime.now() - cooldown[msg.from_user.username]).total_seconds() < 10:
+        bot.send_message(msg.chat.id, f'Ты заебал, подожди немного!') 
 
 @bot.message_handler(regexp= 'ч(а|я)[ейкаю-я]')
 def send_tea(msg):
@@ -66,7 +74,6 @@ def self_pinus(msg):
         pinus.personal_pinus(msg, bot)
     except:
         pass
-
 @bot.message_handler(commands=['pinus_fight'])
 def pinus_fight(msg):
     try:

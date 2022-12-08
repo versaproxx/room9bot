@@ -136,3 +136,4 @@ pidors.db
 /.idea/room9bot.iml
 /.idea/vcs.xml
 bot_files/
+modules/test.py
