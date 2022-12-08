@@ -18,8 +18,8 @@ def personal_pinus(msg, bot):
 def pinus_fight(msg, bot):
     pinus_one = str(msg.from_user.id)
     pinus_two = str(msg.reply_to_message.from_user.id)
-    name1 = str(msg.from_user.id)
-    name2 = str(msg.reply_to_message.from_user.id)
+    name1 = str(msg.from_user.username)
+    name2 = str(msg.reply_to_message.from_user.username)
     pinus_one_size = 0
     pinus_two_size = 0
     for pinus in pinus_one:
