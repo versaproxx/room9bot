@@ -7,7 +7,8 @@ def idi_v_pizdu(msg, bot):
         try:
             name = msg.reply_to_message.from_user.username
             bot.send_message(msg.chat.id, f'Иди в пизду, @{name}',  reply_to_message_id=msg.reply_to_message.message_id)
-        except:
+        except Exception as e: 
+            print(e)
             bot.send_message(msg.chat.id, f'Ой идите вы все в пизду, дамы и господа!!') 
         
 
