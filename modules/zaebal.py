@@ -1,13 +1,8 @@
 def zaebal(msg, bot):
     deleting_message = msg.message_id
-    if '@' in str(msg.text):
+    if '@' in str(msg.text) and not '@pidor9bot' in str(msg.text):
         name = str(msg.text).split('@')[1]
-        try:
-            bot.reply_to(msg.reply_to_message.from_user.id, f'Иди в пизду, @{name}')
-        except Exception as e: 
-            print('internal exc')
-            print(e)
-            bot.send_message(msg.chat.id, f'Как же вы все меня заебали')
+        bot.send_message(msg.chat.id, f'Ты заебал, @{name}')
     else:
         try:
             name = msg.reply_to_message.from_user.username
