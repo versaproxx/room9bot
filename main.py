@@ -45,28 +45,17 @@ def start(msg, res=False):
 
 @bot.message_handler(commands=["nah", "nahuy", "nahui", "idinahui", "idinahuy"])
 def idi_na_hui_wrapper(msg):
-    try:
-        nahui.idi_na_huy(msg, bot)
-    except Exception as e: 
-        print('externa exc')
-        print(e)
-        pass
+    nahui.idi_na_huy(msg, bot)
+
 
 @bot.message_handler(commands=["vpizdu"])
 def idi_v_pizdu_wrapper(msg):
-    try:
-        vpizdu.idi_v_pizdu(msg, bot)
-    except Exception as e: 
-        print(e)
-        pass
+    vpizdu.idi_v_pizdu(msg, bot)
+
 
 @bot.message_handler(commands=["zaebal"])
 def zaebal_wrapper(msg):
-    try:
-        zaebal.zaebal(msg, bot)
-    except Exception as e: 
-        print(e)
-        pass
+    zaebal.zaebal(msg, bot)
 
 @bot.message_handler(regexp= 'ч(а|я)[ейкаю-я]')
 def send_tea(msg):
