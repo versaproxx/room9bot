@@ -11,8 +11,7 @@ def personal_pinus(msg, bot):
         size = 0
         size += int(raw_size)
     size_mod = round((size / 4) + random.randint(0,9))
-    bot.send_message(msg.chat.id, f"{draw_pinus_personal(size_mod)}")
-    bot.send_message(msg.chat.id, f"Твой пинус, @{msg.from_user.username}: {size_mod}")
+    bot.send_message(msg.chat.id, f"{draw_pinus_personal(size_mod)} \n Твой пинус, @{msg.from_user.username}: {size_mod} см")
     bot.delete_message(msg.chat.id, msg.message_id)
 
 def pinus_fight(msg, bot):
@@ -26,12 +25,13 @@ def pinus_fight(msg, bot):
         pinus_one_size += round(int(pinus) / 4 + random.randint(0,9))
     for pinus in pinus_two:
         pinus_two_size += round(int(pinus) / 4 + random.randint(0,9))
-    
-    bot.send_message(msg.chat.id, draw_pinus_fight(pinus_one_size, pinus_two_size, name1, name2))
+    pinus_text = ''
     if pinus_one_size > pinus_two_size:
-        bot.send_message(msg.chat.id, f"Пинус: @{msg.from_user.username} больше @{msg.reply_to_message.from_user.username}")
+        pinus_text = f"Пинус: @{msg.from_user.username} больше @{msg.reply_to_message.from_user.username}"
     if pinus_two_size > pinus_one_size:
-        bot.send_message(msg.chat.id, f"Пинус: @{msg.reply_to_message.from_user.username} больше @{msg.from_user.username}")    
+        pinus_text = f"Пинус: @{msg.reply_to_message.from_user.username} больше @{msg.from_user.username}"
     if pinus_one_size == pinus_two_size:
-        bot.send_message(msg.chat.id, f"Ваши пинусы равны")
+        pinus_text = f"Ваши пинусы равны"
+    bot.send_message(msg.chat.id, f'{draw_pinus_fight(pinus_one_size, pinus_two_size, name1, name2)} \n {pinus_text}')
+    
     bot.delete_message(msg.chat.id, msg.message_id)
