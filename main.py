@@ -57,7 +57,8 @@ def idi_v_pizdu_wrapper(msg):
 
 @bot.message_handler(commands=["zaebal"])
 def zaebal_wrapper(msg) -> None:
-    if msg.from_user.username not in cooldown or cooldown[(msg.from_user.username)] > datetime.datetime.now():
+    print(cooldown)
+    if msg.from_user.username not in cooldown or (datetime.datetime.now() - cooldown[msg.from_user.username]).total_seconds() > 10:
         zaebal.zaebal(msg, bot)
         cooldown[msg.from_user.username] = datetime.datetime.now()
         print((datetime.datetime.now() - cooldown[msg.from_user.username]).total_seconds())
