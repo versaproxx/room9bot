@@ -7,7 +7,7 @@ app = Flask(__name__)
 def webhook():
     if request.method == 'POST':
         system('sh new_build.sh')
-        return "Webhook received!"
+        return "Start build!"
 
         
          
