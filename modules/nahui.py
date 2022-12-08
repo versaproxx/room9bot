@@ -7,7 +7,9 @@ def idi_na_huy(msg, bot):
         try:
             name = msg.reply_to_message.from_user.username
             bot.send_message(msg.chat.id, f'Иди на хуй, @{name}',  reply_to_message_id=msg.reply_to_message.message_id)
-        except:
+        except Exception as e: 
+            print('internal exc')
+            print(e)
             bot.send_message(msg.chat.id, f'Да пошли вы все нахуй') 
         
 

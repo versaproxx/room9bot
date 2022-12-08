@@ -48,6 +48,7 @@ def idi_na_hui_wrapper(msg):
     try:
         nahui.idi_na_huy(msg, bot)
     except Exception as e: 
+        print('externa exc')
         print(e)
         pass
 
