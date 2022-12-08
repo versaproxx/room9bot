@@ -9,9 +9,17 @@ from modules import tea, pidor, nahui, models, vpizdu, zaebal, pinus
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
-cooldown = {}
+cooldown_dict = {}
 engine = models.engine
 session = Session(engine)
+
+def cooldown(func, cooldown_dict, msg, bot):
+    if msg.from_user.username not in cooldown_dict or (datetime.datetime.now() - cooldown_dict[msg.from_user.username]).total_seconds() > 10:
+        func(msg, bot)
+        cooldown_dict[msg.from_user.username] = datetime.datetime.now()
+    elif (datetime.datetime.now() - cooldown_dict[msg.from_user.username]).total_seconds() < 10:
+        bot.send_message(msg.chat.id, f'Ты заебал, подожди немного!') 
+        bot.delete_message(msg.chat.id, msg.message_id)
 
 @bot.message_handler(commands=["pidor"])
 def start(m, res=False):
@@ -47,23 +55,16 @@ def start(msg, res=False):
 
 @bot.message_handler(commands=["nah", "nahuy", "nahui", "idinahui", "idinahuy"])
 def idi_na_hui_wrapper(msg):
-    nahui.idi_na_huy(msg, bot)
-
+    cooldown(nahui.idi_na_huy, cooldown_dict, msg, bot)
 
 @bot.message_handler(commands=["vpizdu"])
 def idi_v_pizdu_wrapper(msg):
-    vpizdu.idi_v_pizdu(msg, bot)
-
+    cooldown(vpizdu.idi_v_pizdu, cooldown_dict, msg, bot)
 
 @bot.message_handler(commands=["zaebal"])
 def zaebal_wrapper(msg) -> None:
-    print(cooldown)
-    if msg.from_user.username not in cooldown or (datetime.datetime.now() - cooldown[msg.from_user.username]).total_seconds() > 10:
-        zaebal.zaebal(msg, bot)
-        cooldown[msg.from_user.username] = datetime.datetime.now()
-        print((datetime.datetime.now() - cooldown[msg.from_user.username]).total_seconds())
-    elif (datetime.datetime.now() - cooldown[msg.from_user.username]).total_seconds() < 10:
-        bot.send_message(msg.chat.id, f'Ты заебал, подожди немного!') 
+    cooldown(zaebal.zaebal, cooldown_dict, msg, bot)
+       
 
 @bot.message_handler(regexp= 'ч(а|я)[ейкаю-я]')
 def send_tea(msg):
