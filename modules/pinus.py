@@ -12,7 +12,7 @@ def personal_pinus(msg, bot):
         size += int(raw_size)
     size_mod = round((size / 4) + random.randint(0,9))
     bot.send_message(msg.chat.id, f"{draw_pinus_personal(size_mod)}")
-    bot.send_message(msg.chat.id, f"Твой пинус: {size_mod}")
+    bot.send_message(msg.chat.id, f"Твой пинус, @{msg.from_user.username}: {size_mod}")
     bot.delete_message(msg.chat.id, msg.message_id)
 
 def pinus_fight(msg, bot):
