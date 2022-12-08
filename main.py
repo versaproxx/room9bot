@@ -4,6 +4,7 @@ from bot_files.private import secrets
 import telebot
 from sqlalchemy.orm import Session
 from modules import tea, pidor, nahui, models, vpizdu
+import random
 
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
@@ -63,5 +64,14 @@ def idi_v_pizdu_wrapper(msg):
 @bot.message_handler(regexp= 'ч(а|я)[ейкаю-я]')
 def send_tea(msg):
     bot.send_sticker(msg.chat.id, tea.random_sticker)
+
+@bot.message_handler(commands=['pinus'])
+def pinus(msg):
+    raw_pinus = msg.reply_to_message.from_user.id
+    size = 0
+    for raw_size in raw_pinus:
+        size += int(raw_size)
+    bot.send_message(msg.chat.id, f"Твой пинус: {(size / 2) + random.randint(0,9)}")
+
 
 bot.polling(none_stop=True, interval=0)
