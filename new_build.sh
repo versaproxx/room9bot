@@ -9,7 +9,7 @@ docker stop $(docker ps -aq)
 echo "All containers stoped"
 
 echo "Deleting old container versions"
-docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
 echo "Deleted"
 
 echo "Delete all images of bot"
