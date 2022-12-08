@@ -3,7 +3,7 @@
 from bot_files.private import secrets
 import telebot
 from sqlalchemy.orm import Session
-from modules import tea, pidor, nahui, models, vpizdu
+from modules import tea, pidor, nahui, models, vpizdu, zaebal
 import random
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
