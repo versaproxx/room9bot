@@ -102,7 +102,7 @@ def send_tea(msg):
 @bot.message_handler(commands=['pinus'])
 def self_pinus(msg):
     try:
-        pinus.personal_pinus(msg, bot)
+        pinus.personal_pinus(msgs, bot)
     except Exception as e:
         logger.exception('pinus func')
         bot.send_message(debug_chat, f'pinus func {e}')
