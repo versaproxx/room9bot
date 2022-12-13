@@ -1,11 +1,12 @@
 #!/bin/env python
 
 import datetime
-from bot_files.private import secrets
+from bot_files.private import secrets, debug_chat
 import telebot
 import time
 from sqlalchemy.orm import Session
 from modules import tea, pidor, nahui, models, vpizdu, zaebal, pinus
+from logging import logger
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
@@ -14,19 +15,23 @@ engine = models.engine
 session = Session(engine)
 
 def cooldown(func, cooldown_dict, msg, bot):
-    if msg.from_user.username not in cooldown_dict or (datetime.datetime.now() - cooldown_dict[msg.from_user.username]).total_seconds() > 10:
-        func(msg, bot)
-        cooldown_dict[msg.from_user.username] = datetime.datetime.now()
-    elif (datetime.datetime.now() - cooldown_dict[msg.from_user.username]).total_seconds() < 10:
-        bot.send_message(msg.chat.id, f'Ты заебал, подожди немного!') 
-        bot.delete_message(msg.chat.id, msg.message_id)
+    try:
+        if msg.from_user.username not in cooldown_dict or (datetime.datetime.now() - cooldown_dict[msg.from_user.username]).total_seconds() > 10:
+            func(msg, bot)
+            cooldown_dict[msg.from_user.username] = datetime.datetime.now()
+        elif (datetime.datetime.now() - cooldown_dict[msg.from_user.username]).total_seconds() < 10:
+            bot.send_message(msg.chat.id, f'Ты заебал, подожди немного!') 
+            bot.delete_message(msg.chat.id, msg.message_id)
+    except Exception as e:
+        logger.exception('cooldown func')
 
 @bot.message_handler(commands=["pidor"])
 def start(m, res=False):
     try:
         bot.send_message(m.chat.id, f'А может ты пидор?')
     except Exception as e: 
-        print(e)
+        logger.exception('pidor func')
+        bot.send_message(debug_chat, f'pidor func {e}')
         pass
 
 @bot.message_handler(commands=['pidor_reg'])
@@ -34,7 +39,8 @@ def start(msg, res=False):
     try:
         pidor.pidor_reg(msg, bot, session)
     except Exception as e: 
-        print(e)
+        logger.exception('pidor_reg func')
+        bot.send_message(debug_chat, f'pidor_reg func {e}')
         pass
 
 @bot.message_handler(commands=['pidor_list'])
@@ -42,7 +48,8 @@ def start(msg, res=False):
     try:
         pidor.pidor_list(msg, bot, session)
     except Exception as e: 
-        print(e)
+        logger.exception('pidor_list func')
+        bot.send_message(debug_chat, f'pidor_list func {e}')
         pass
 
 @bot.message_handler(commands=['find_pidor'])
@@ -50,36 +57,63 @@ def start(msg, res=False):
     try:
         pidor.find_pidor(msg, bot, session)
     except Exception as e: 
-        print(e)
+        logger.exception('find_pidor func')
+        bot.send_message(debug_chat, f'find_pidor func {e}')
         pass
 
 @bot.message_handler(commands=["nah", "nahuy", "nahui", "idinahui", "idinahuy"])
 def idi_na_hui_wrapper(msg):
-    cooldown(nahui.idi_na_huy, cooldown_dict, msg, bot)
+    try:
+        cooldown(nahui.idi_na_huy, cooldown_dict, msg, bot)
+    except Exception as e: 
+        logger.exception('nah func')
+        bot.send_message(debug_chat, f'nah func {e}')
+        pass
 
 @bot.message_handler(commands=["vpizdu"])
 def idi_v_pizdu_wrapper(msg):
-    cooldown(vpizdu.idi_v_pizdu, cooldown_dict, msg, bot)
+    try:
+        cooldown(vpizdu.idi_v_pizdu, cooldown_dict, msg, bot)
+    except Exception as e: 
+        logger.exception('vpizdu func')
+        bot.send_message(debug_chat, f'vpizdu func {e}')
+        pass
+
 
 @bot.message_handler(commands=["zaebal"])
 def zaebal_wrapper(msg) -> None:
-    cooldown(zaebal.zaebal, cooldown_dict, msg, bot)
+    try:
+        cooldown(zaebal.zaebal, cooldown_dict, msg, bot)
+    except Exception as e: 
+        logger.exception('zaebal func')
+        bot.send_message(debug_chat, f'vpizdu func {e}')
+        pass
        
 
 @bot.message_handler(regexp= 'ч(а|я)[ейкаю-я]')
 def send_tea(msg):
-    bot.send_sticker(msg.chat.id, tea.random_sticker)
+    try:
+        bot.send_sticker(msg.chat.id, tea.random_sticker)
+    except Exception as e: 
+        logger.exception('tea func')
+        bot.send_message(debug_chat, f'tea func {e}')
+        pass
 
 @bot.message_handler(commands=['pinus'])
 def self_pinus(msg):
     try:
         pinus.personal_pinus(msg, bot)
-    except:
+    except Exception as e:
+        logger.exception('pinus func')
+        bot.send_message(debug_chat, f'pinus func {e}')
         pass
+
 @bot.message_handler(commands=['pinus_fight'])
 def pinus_fight(msg):
     try:
         pinus.pinus_fight(msg, bot)
-    except:
+    except Exception as e:
+        logger.exception('pinus_fight func')
+        bot.send_message(debug_chat, f'pinus_fight func {e}')
         pass
 bot.polling(none_stop=True, interval=0)

@@ -137,3 +137,4 @@ pidors.db
 /.idea/vcs.xml
 bot_files/
 modules/test.py
+*.log
