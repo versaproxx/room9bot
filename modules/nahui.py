@@ -1,5 +1,3 @@
-from logging import logger
-
 def idi_na_huy(msg, bot):
     deleting_message = msg.message_id
     if '@' in str(msg.text) and not '@pidor9bot' in str(msg.text):
