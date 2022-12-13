@@ -6,7 +6,7 @@ import telebot
 import time
 from sqlalchemy.orm import Session
 from modules import tea, pidor, nahui, models, vpizdu, zaebal, pinus
-from logging import logger
+from modules.logger import logger
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
