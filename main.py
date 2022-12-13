@@ -7,6 +7,7 @@ import time
 from sqlalchemy.orm import Session
 from modules import tea, pidor, nahui, models, vpizdu, zaebal, pinus
 from modules.logger import logger
+import traceback
 
 bot = telebot.TeleBot(secrets.get('BOT_TOKEN'))
 
@@ -29,54 +30,54 @@ def cooldown(func, cooldown_dict, msg, bot):
 def start(m, res=False):
     try:
         bot.send_message(m.chat.id, f'А может ты пидор?')
-    except Exception as e: 
+    except Exception: 
         logger.exception('pidor func')
-        bot.send_message(debug_chat, f'pidor func {e}')
+        bot.send_message(debug_chat, f'pidor func: {traceback.format_exc()}')
         pass
 
 @bot.message_handler(commands=['pidor_reg'])
 def start(msg, res=False):
     try:
         pidor.pidor_reg(msg, bot, session)
-    except Exception as e: 
+    except Exception: 
         logger.exception('pidor_reg func')
-        bot.send_message(debug_chat, f'pidor_reg func {e}')
+        bot.send_message(debug_chat, f'pidor_reg func: {traceback.format_exc()}')
         pass
 
 @bot.message_handler(commands=['pidor_list'])
 def start(msg, res=False):
     try:
         pidor.pidor_list(msg, bot, session)
-    except Exception as e: 
+    except Exception: 
         logger.exception('pidor_list func')
-        bot.send_message(debug_chat, f'pidor_list func {e}')
+        bot.send_message(debug_chat, f'pidor_list func: {traceback.format_exc()}')
         pass
 
 @bot.message_handler(commands=['find_pidor'])
 def start(msg, res=False):
     try:
         pidor.find_pidor(msg, bot, session)
-    except Exception as e: 
+    except Exception: 
         logger.exception('find_pidor func')
-        bot.send_message(debug_chat, f'find_pidor func {e}')
+        bot.send_message(debug_chat, f'find_pidor func: {traceback.format_exc()}')
         pass
 
 @bot.message_handler(commands=["nah", "nahuy", "nahui", "idinahui", "idinahuy"])
 def idi_na_hui_wrapper(msg):
     try:
         cooldown(nahui.idi_na_huy, cooldown_dict, msg, bot)
-    except Exception as e: 
+    except Exception: 
         logger.exception('nah func')
-        bot.send_message(debug_chat, f'nah func {e}')
+        bot.send_message(debug_chat, f'nah func: {traceback.format_exc()}')
         pass
 
 @bot.message_handler(commands=["vpizdu"])
 def idi_v_pizdu_wrapper(msg):
     try:
         cooldown(vpizdu.idi_v_pizdu, cooldown_dict, msg, bot)
-    except Exception as e: 
+    except Exception: 
         logger.exception('vpizdu func')
-        bot.send_message(debug_chat, f'vpizdu func {e}')
+        bot.send_message(debug_chat, f'vpizdu func: {traceback.format_exc()}')
         pass
 
 
@@ -84,9 +85,9 @@ def idi_v_pizdu_wrapper(msg):
 def zaebal_wrapper(msg) -> None:
     try:
         cooldown(zaebal.zaebal, cooldown_dict, msg, bot)
-    except Exception as e: 
+    except Exception: 
         logger.exception('zaebal func')
-        bot.send_message(debug_chat, f'vpizdu func {e}')
+        bot.send_message(debug_chat, f'vpizdu func: {traceback.format_exc()}')
         pass
        
 
@@ -94,26 +95,26 @@ def zaebal_wrapper(msg) -> None:
 def send_tea(msg):
     try:
         bot.send_sticker(msg.chat.id, tea.random_sticker)
-    except Exception as e: 
+    except Exception: 
         logger.exception('tea func')
-        bot.send_message(debug_chat, f'tea func {e}')
+        bot.send_message(debug_chat, f'tea func: {traceback.format_exc()}')
         pass
 
 @bot.message_handler(commands=['pinus'])
 def self_pinus(msg):
     try:
-        pinus.personal_pinus(msgs, bot)
-    except Exception as e:
+        pinus.personal_pinus(msg, bot)
+    except Exception:
         logger.exception('pinus func')
-        bot.send_message(debug_chat, f'pinus func {e}')
+        bot.send_message(debug_chat, f'pinus func: {traceback.format_exc()}')
         pass
 
 @bot.message_handler(commands=['pinus_fight'])
 def pinus_fight(msg):
     try:
         pinus.pinus_fight(msg, bot)
-    except Exception as e:
+    except Exception:
         logger.exception('pinus_fight func')
-        bot.send_message(debug_chat, f'pinus_fight func {e}')
+        bot.send_message(debug_chat, f'pinus_fight func: {traceback.format_exc()}')
         pass
 bot.polling(none_stop=True, interval=0)
