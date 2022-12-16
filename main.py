@@ -117,4 +117,4 @@ def pinus_fight(msg):
         logger.exception('pinus_fight func')
         bot.send_message(debug_chat, f'pinus_fight func: {traceback.format_exc()}')
         pass
-bot.polling(none_stop=True, interval=0)
+bot.infinity_polling(timeout=10, long_polling_timeout = 5)
