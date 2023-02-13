@@ -33,9 +33,12 @@ def pidor_reg(msg, bot, session):
         session.query(Pidors.name).filter(Pidors.name==msg.from_user.username).one()
         bot.send_message(msg.chat.id, 'Эй! Ты уже в игре!')
     except:
-        session.add(Pidors(name=msg.from_user.username, pidor_times=0))
-        session.commit()
-        bot.send_message(msg.chat.id, f'Вы добавлены в игру, {msg.from_user.first_name} (@{msg.from_user.username})')
+        if msg.from_user.username is not None:
+            session.add(Pidors(name=msg.from_user.username, pidor_times=0))
+            session.commit()
+            bot.send_message(msg.chat.id, f'Вы добавлены в игру, {msg.from_user.first_name} (@{msg.from_user.username})')
+        else:
+            bot.send_message(msg.chat.id, f'Ты какой-то странный,{msg.from_user.first_name}, попробуй еще раз')
 
 def get_pidor_today(msg, bot, session):
     pidor_today = session.query(Pidors.name).join(PidorDates).filter(PidorDates.pidor_date == session.query(func.max(PidorDates.pidor_date))).one()
