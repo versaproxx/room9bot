@@ -91,7 +91,7 @@ def zaebal_wrapper(msg) -> None:
         pass
        
 
-@bot.message_handler(regexp= 'ч(а|я)[ейкаю-я]')
+@bot.message_handler(regexp=r'\bча[йюе]((ку)|(и)|(ей))?\b')
 def send_tea(msg):
     try:
         bot.send_sticker(msg.chat.id, tea.random_sticker)
@@ -117,4 +117,6 @@ def pinus_fight(msg):
         logger.exception('pinus_fight func')
         bot.send_message(debug_chat, f'pinus_fight func: {traceback.format_exc()}')
         pass
+
+
 bot.infinity_polling(timeout=10, long_polling_timeout = 5)
