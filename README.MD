@@ -13,6 +13,7 @@
 Бот использует библиотеку Python-telegram-bot для взаимодействия с Telegram API и SQLite для хранения данных.
 
 [English description]
+
 This is a Telegram bot written in Python using the aiogram library. The bot is designed for use in a group chat and includes several features, such as:
 
 Pidor of the Day game
