@@ -29,20 +29,22 @@ def get_date(session):
 
 
 def pidor_reg(msg, bot, session):
-    try:
-        session.query(Pidors.name).filter(Pidors.name==msg.from_user.username).one()
-        bot.send_message(msg.chat.id, 'Эй! Ты уже в игре!')
-    except:
-        if msg.from_user.username is not None:
-            session.add(Pidors(name=msg.from_user.username, pidor_times=0))
-            session.commit()
-            bot.send_message(msg.chat.id, f'Вы добавлены в игру, {msg.from_user.first_name} (@{msg.from_user.username})')
+    username = msg.from_user.username
+    if username:
+        if session.query(Pidors.name).filter(Pidors.name==username).scalar():
+            bot.send_message(msg.chat.id, 'Эй! Ты уже в игре!')
         else:
-            bot.send_message(msg.chat.id, f'Ты, Rising Sun, и так пидор по умолчанию')
-
+            session.add(Pidors(name=username, pidor_times=0))
+            session.commit()
+            bot.send_message(msg.chat.id, f'Вы добавлены в игру, {msg.from_user.first_name} (@{username})')
+    else:
+        bot.send_message(msg.chat.id, 'Ты, Rising Sun, и так пидор по умолчанию')
 def get_pidor_today(msg, bot, session):
-    pidor_today = session.query(Pidors.name).join(PidorDates).filter(PidorDates.pidor_date == session.query(func.max(PidorDates.pidor_date))).one()
-    bot.send_message(msg.chat.id, f'Пидор дня: {pidor_today[0]}')
+    pidor_today = session.query(Pidors.name).join(PidorDates).order_by(PidorDates.pidor_date.desc()).first()
+    if pidor_today:
+        bot.send_message(msg.chat.id, f'Пидор дня: {pidor_today[0]}')
+    else:
+        bot.send_message(msg.chat.id, 'Пока никто не стал пидором дня')
 
 def pidor_list(msg, bot, session):
     pidor_list_text = ''
@@ -56,18 +58,20 @@ def pidor_list(msg, bot, session):
         pidor_list_text = pidor_list_text + pidor + ' - ' + str(sorted_pidors[pidor][0]) + ' раз(а)' + '\n'
     bot.send_message(msg.chat.id, pidor_list_text)
 
+PHRASE_LIST = [f'Кто же этот пидор, что спиздил у меня головку на {random.randint(8, 32)}',
+               'Надо было не курить, а учиться... Ну что ж, пойдет тебе пидорский титул!',
+               'Правила просты: кто был пидором вчера, тот пидор и сегодня. Так что, сегодня ты везунчик!',
+               'Хм, ты не знаешь, кто пидор дня? Давай проверим: если ты это читаешь, значит это ты!',
+               'А ты знаешь, что делает пидор, когда его выбирают дня? Ничего не делает, он счастлив!',
+               'Наши эксперты изменили формулу выбора пидора дня. И теперь вот что она говорит: пидор - это ты!']
+
 def find_pidor(msg, bot, session):
-    phraseList = [f'Кто же этот пидор, что спиздил у меня головку на {random.randint(8, 32)}', 'Список не большой',
-              'Сейчас посмотрим']
-    if get_date(session) == None:
-        last_date = datetime.date(1970, 1, 1)
-    else:
-        last_date = get_date(session)
-    if last_date >= datetime.datetime.today().date():
+    last_date = get_date(session) or datetime.date(1970, 1, 1)
+    if last_date >= datetime.date.today():
         get_pidor_today(msg, bot, session)
-    elif last_date < datetime.datetime.today().date():
+    else:
         pidor = get_pidor(session)
-        for phrase in phraseList:
+        for phrase in PHRASE_LIST:
             bot.send_message(msg.chat.id, phrase)
             time.sleep(3)
         bot.send_message(msg.chat.id, f'Новый пидор дня сегодня: @{pidor}')
