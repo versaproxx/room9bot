@@ -4,22 +4,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 engine = create_engine('sqlite:///bot_files/pidors.db', echo=True, future=True, connect_args={'check_same_thread': False})
 Base = declarative_base()
-class Chat(Base):
-    __tablename__ = 'chats'
-
-    id = Column(Integer, primary_key=True)
-    chat_id = Column(Integer, unique=True, nullable=False)
-    pidors = relationship('Pidors', backref='chat', lazy=True)
-
-
-class Pidors(Base):
-    __tablename__ = 'pidors'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255), unique=True, nullable=False)
-    pidor_times = Column(Integer, default=0)
-    chat_id = Column(Integer, ForeignKey('chats.id'), nullable=False)
-
 
 class Pidors(Base):
     __tablename__ = 'pidors'
