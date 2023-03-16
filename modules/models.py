@@ -20,22 +20,22 @@ class Pidors(Base):
     pidor_times = Column(Integer, default=0)
     chat_id = Column(Integer, ForeignKey('chats.id'), nullable=False)
 
-#
-# class Pidors(Base):
-#     __tablename__ = 'pidors'
-#
-#     pidor_id = Column(Integer, primary_key=True)
-#     name = Column(String)
-#     pidor_times = Column(Integer)
-#     pidor_dates = relationship('PidorDates', backref=backref('pidors'))
-#     UniqueConstraint('name', name='uix_1')
-#
-#
-# class PidorDates(Base):
-#     __tablename__ = 'pidor_dates'
-#
-#     date_id = Column(Integer, primary_key=True)
-#     pidor_id = Column(Integer, ForeignKey('pidors.pidor_id'), nullable=False)
-#     pidor_date = Column(Date)
+
+class Pidors(Base):
+    __tablename__ = 'pidors'
+
+    pidor_id = Column(Integer, primary_key=True)
+    name = Column(String)
+    pidor_times = Column(Integer)
+    pidor_dates = relationship('PidorDates', backref=backref('pidors'))
+    UniqueConstraint('name', name='uix_1')
+
+
+class PidorDates(Base):
+    __tablename__ = 'pidor_dates'
+
+    date_id = Column(Integer, primary_key=True)
+    pidor_id = Column(Integer, ForeignKey('pidors.pidor_id'), nullable=False)
+    pidor_date = Column(Date)
 
 Base.metadata.create_all(engine)
