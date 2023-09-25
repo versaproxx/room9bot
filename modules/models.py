@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table, create_engine, Date, UniqueConstraint
+from sqlalchemy import Column, Integer, String, BigInteger, ForeignKey, Table, create_engine, Date, UniqueConstraint
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -8,11 +8,11 @@ Base = declarative_base()
 class Pidors(Base):
     __tablename__ = 'pidors'
 
-    pidor_id = Column(Integer, primary_key=True)
+    pidor_id = Column(BigInteger, primary_key=True)
     name = Column(String)
     pidor_times = Column(Integer, default=0)
     pidor_dates = relationship('PidorDates', backref=backref('pidors'))
-    chat_id = Column(Integer, nullable=False)
+    chat_id = Column(BigInteger)
     UniqueConstraint('name', 'chat_id', name='uix_1')
 
 
@@ -20,8 +20,8 @@ class PidorDates(Base):
     __tablename__ = 'pidor_dates'
 
     date_id = Column(Integer, primary_key=True)
-    pidor_id = Column(Integer, ForeignKey('pidors.pidor_id'), nullable=False)
+    pidor_id = Column(BigInteger, ForeignKey('pidors.pidor_id'), nullable=False)
     pidor_date = Column(Date)
-    chat_id = Column(Integer, ForeignKey('pidors.chat_id'), nullable=False)
+    chat_id = Column(BigInteger, ForeignKey('pidors.chat_id'), nullable=False)
 
 Base.metadata.create_all(engine)
