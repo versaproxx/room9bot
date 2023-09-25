@@ -91,7 +91,7 @@ def zaebal_wrapper(msg) -> None:
         pass
        
 
-@bot.message_handler(regexp= 'ч(а|я)[ейкаю-я]')
+@bot.message_handler(regexp= r'\bча[йюе]((ку)|(и)|(ей))?\b')
 def send_tea(msg):
     try:
         bot.send_sticker(msg.chat.id, tea.random_sticker)
