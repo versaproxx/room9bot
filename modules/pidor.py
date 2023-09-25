@@ -4,9 +4,9 @@ import time
 from sqlalchemy import select, func
 from modules.models import Pidors, PidorDates
 
-def pidorList(session):
+def pidorList(chat_id, session):
     pidor_list = []
-    pidor_select = select(Pidors.name)
+    pidor_select = select(Pidors.name).filter(Pidors.chat_id==chat_id)
     for pidor in session.scalars(pidor_select):
         pidor_list.append(pidor)
     return pidor_list
@@ -23,8 +23,8 @@ def get_pidor(msg,session):
     return pidor_of_the_day
 
 
-def get_date(session):
-    last_date = session.query(func.max(PidorDates.pidor_date)).one()
+def get_date(session, chat_id):
+    last_date = session.query(func.max(PidorDates.pidor_date)).filter(PidorDates.chat_id==chat_id).one()
     print(last_date)
     return last_date[0]
 
@@ -52,7 +52,7 @@ def get_pidor_today(msg, bot, session):
 def pidor_list(msg, bot, session):
     chat_id = msg.chat.id
     pidor_list_text = ''
-    pidor_list = pidorList(session)
+    pidor_list = pidorList(chat_id, session)
     pidor_dict = {}
     for pidor in pidor_list:
         pidor_count = session.query(Pidors.pidor_times).filter(Pidors.name==pidor,Pidors.chat_id==chat_id).one()
@@ -70,12 +70,13 @@ PHRASE_LIST = [f'Кто же этот пидор, что спиздил у ме�
                'Наши эксперты изменили формулу выбора пидора дня. И теперь вот что она говорит: пидор - это ты!']
 
 def find_pidor(msg, bot, session):
-    last_date = get_date(session) or datetime.date(1970, 1, 1)
+    chat_id = msg.chat.id
+    last_date = get_date(session,chat_id) or datetime.date(1970, 1, 1)
     if last_date >= datetime.date.today():
         get_pidor_today(msg, bot, session)
     else:
-        pidor = get_pidor(session)
+        pidor = get_pidor(msg,session)
         for phrase in PHRASE_LIST:
             bot.send_message(msg.chat.id, phrase)
-            time.sleep(3)
+            time.sleep(1)
         bot.send_message(msg.chat.id, f'Новый пидор дня сегодня: @{pidor}')
