@@ -12,7 +12,7 @@ class Pidors(Base):
     name = Column(String)
     pidor_times = Column(Integer, default=0)
     pidor_dates = relationship('PidorDates', backref=backref('pidors'))
-    chat_id = Column(BigInteger, nullable=False)
+    chat_id = Column(Integer, nullable=False)
     UniqueConstraint('name', 'chat_id', name='uix_1')
 
 
@@ -22,6 +22,6 @@ class PidorDates(Base):
     date_id = Column(Integer, primary_key=True)
     pidor_id = Column(Integer, ForeignKey('pidors.pidor_id'), nullable=False)
     pidor_date = Column(Date)
-    chat_id = Column(BigInteger, ForeignKey('pidors.chat_id'), nullable=False)
+    chat_id = Column(Integer, ForeignKey('pidors.chat_id'), nullable=False)
 
 Base.metadata.create_all(engine)
