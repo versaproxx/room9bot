@@ -5,7 +5,6 @@ from sqlalchemy.ext.declarative import declarative_base
 engine = create_engine('sqlite:///bot_files/pidors.db', echo=True, future=True, connect_args={'check_same_thread': False})
 Base = declarative_base()
 
-
 class Pidors(Base):
     __tablename__ = 'pidors'
 
@@ -14,7 +13,8 @@ class Pidors(Base):
     pidor_times = Column(Integer)
     pidor_dates = relationship('PidorDates', backref=backref('pidors'))
     UniqueConstraint('name', name='uix_1')
-        
+
+
 class PidorDates(Base):
     __tablename__ = 'pidor_dates'
 

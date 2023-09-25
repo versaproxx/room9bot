@@ -62,6 +62,15 @@ def start(msg, res=False):
         bot.send_message(debug_chat, f'find_pidor func: {traceback.format_exc()}')
         pass
 
+# @bot.message_handler(commands=['find_pidor'])
+# def start(msg, res=False):
+#     try:
+#         pidor.get_pidor_today(msg, bot, session)
+#     except Exception:
+#         logger.exception('find_pidor func')
+#         bot.send_message(debug_chat, f'find_pidor func: {traceback.format_exc()}')
+#         pass
+
 @bot.message_handler(commands=["nah", "nahuy", "nahui", "idinahui", "idinahuy"])
 def idi_na_hui_wrapper(msg):
     try:
@@ -117,4 +126,6 @@ def pinus_fight(msg):
         logger.exception('pinus_fight func')
         bot.send_message(debug_chat, f'pinus_fight func: {traceback.format_exc()}')
         pass
+
+
 bot.infinity_polling(timeout=10, long_polling_timeout = 5)
