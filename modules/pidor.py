@@ -14,7 +14,7 @@ def pidorList(chat_id, session):
 
 def get_pidor(msg,session):
     chat_id = msg.chat.id
-    pidor_of_the_day = random.choice(pidorList(session))
+    pidor_of_the_day = random.choice(pidorList(chat_id, session))
     new_date = PidorDates(pidor_date=datetime.datetime.today(), pidor_id=session.query(Pidors.pidor_id).filter(Pidors.name == pidor_of_the_day, Pidors.chat_id==chat_id), chat_id = chat_id)
     session.add(new_date)
     session.commit()
